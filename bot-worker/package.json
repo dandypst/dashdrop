@@ -1,0 +1,15 @@
+{
+  "name": "dashdrop-bot-worker",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "Worker yang menjalankan task airdrop dan lapor ke Firestore",
+  "main": "worker.js",
+  "scripts": {
+    "start": "node worker.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.1",
+    "firebase-admin": "^12.2.0"
+  }
+}
