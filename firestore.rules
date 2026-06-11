@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Dashboard: hanya user yang sudah login boleh baca & kirim perintah.
+    // Worker pakai service account (firebase-admin) → bypass rules ini.
+    match /bots/{botId} {
+      allow read: if request.auth != null;
+      // dari dashboard hanya boleh ubah field "command" & "commandAt"
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['command', 'commandAt']);
+      allow create, delete: if false; // hanya worker (admin) yang buat/hapus
+    }
+    match /logs/{logId} {
+      allow read: if request.auth != null;
+      allow write: if false; // hanya worker (admin) yang nulis log
+    }
+  }
+}
